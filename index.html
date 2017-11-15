@@ -2,7 +2,6 @@
 <!--
 	Read Only by HTML5 UP
 	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 
 	Usefull stuff:
 	http://fontawesome.io/icons/
@@ -15,7 +14,37 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<script src="assets/js/jquery.min.js"></script>
+		<script>
+			$(function(){
+				$.get('https://api.github.com/users/carlosc20/repos', function(data, status){
+					if(status=='success'){
+						//console.log(data);
+						for (var i = 0; i < data.length; i++) {
+							var html = createGitArticles(data[i].name, data[i].description, data[i].html_url);
+							$('#gitrepos').append(html);
+							console.log(html);
+						}
+					}
+					// console.log(data,status);
+				});
+			});
+
+			function createGitArticles(name, description, url){
+				if(!description) description = 'No description.';
+				var html = '';
+				html += '<article>';
+				html += '	<a href="'+url+'" class="image"><img src="images/pic01.jpg" alt="" /></a>';
+				html += '	<div class="inner">';
+				html += '		<h4>'+name+'</h4>';
+				html += '		<p>'+description+'</p>';
+				html += '	</div>';
+				html += '</article>';
+				return html;
+			}
+		</script>
 	</head>
+
 	<body>
 
 		<!-- Header -->
@@ -82,21 +111,8 @@
 								<div class="container">
 									<h3>Projects</h3>
 									<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
-									<div class="features">
-										<article>
-											<a href="#" class="image"><img src="images/CDB.png" alt="" /></a>
-											<div class="inner">
-												<h4>Cave do Barbas</h4>
-												<p>Online roguelike game made in C.</p>
-											</div>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-											<div class="inner">
-												<h4>Terraformed a small moon</h4>
-												<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer adipiscing ornare amet.</p>
-											</div>
-										</article>
+									<div id="gitrepos" class="features">
+										<!-- git articles script -->
 									</div>
 								</div>
 							</section>
