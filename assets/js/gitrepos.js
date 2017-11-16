@@ -1,6 +1,6 @@
 
 $(function(){
-	$.get('https://api.github.com/users/dans24/repos', function(data, status){
+	$.get('https://api.github.com/users/carlosc20/repos', function(data, status){
 		if(status=='success'){
 			//console.log(data);
 			for (var i = 0; i < 4; i++) {
@@ -9,7 +9,7 @@ $(function(){
 				console.log(html);
 			}
 			if (data.length >= i + 1) {
-				$('#gitrepos').append('<a href="https://github.com/carlosc20?tab=repositories">See more.</a>');
+				$('#gitrepos').append('<a href="https://github.com/carlosc20?tab=repositories">See more</a>');
 			}
 		}
 		// console.log(data,status);
@@ -23,9 +23,9 @@ function createGitArticles(name, description, url, updated, language){
 
 	var html = '';
 	html += '<article>';
-	html += '	<a href="' + url + '" class="image"><img src="images/pic01.jpg" alt="" /></a>';
+	html += '	<span class="image"><img src="https://raw.githubusercontent.com/carlosc20/' + name + '/master/display.jpg" alt="" /></span>';
 	html += '	<div class="inner">';
-	html += '		<h4>' + name + '</h4>';
+	html += '		<a href="' + url + '"><h4>' + name + '</h4></a>';
 	html += '		<p>' + language + description + '<br/><small>' + updated + '</small></p>';
 	html += '	</div>';
 	html += '</article>';
