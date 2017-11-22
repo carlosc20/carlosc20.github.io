@@ -8,7 +8,7 @@ $(function(){
 			for (var i = 0; i < MAX && i < data.length; i++) {
 				var html = createGitArticles(data[i].name, data[i].description, data[i].html_url, data[i].updated_at, data[i].language);
 				$('#gitrepos').append(html);
-				console.log(html);
+				//console.log(html);
 			}
 			if (data.length >= i + 1) {
 				$('#gitrepos').append('<a href="https://github.com/carlosc20?tab=repositories">See more</a>');
@@ -18,23 +18,47 @@ $(function(){
 	});
 });
 
+function urlify(text) {
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '">' + url + '</a>';
+    })
+}
 
+function changeDescription(text){
+	var MAXSIZE = 175;
 
+	//limits max size of description to 175 characters, cuts words
+	if(text.length > MAXSIZE) {
+		text = text.substring(0, MAXSIZE);
+		text += '...';
+	}
+
+	//makes links in description clickable
+	text = urlify(text);
+
+	return text;
+}
+
+function changeDate(date){
+	//all timestamps return in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
+	return new Date(date).toDateString();
+}
 
 function createGitArticles(name, description, url, updated, language){
 	if(!description) description = 'No description.';
 	if(!language) language = '';
-		else language += '<br/>';
+		else language = '<b>' + language + '</b><br/>';
 
 	var html = '';
 	html += '<article>';
 	html += '	<span class="image"><img src="https://raw.githubusercontent.com/carlosc20/' + name + '/master/display.jpg" onerror="this.src=`images/avatar.jpg`" alt="" /></span>';
 	html += '	<div class="inner">';
 	html += '		<a href="' + url + '"><h4 class="hover">' + name + '</h4></a>';
-	html += '		<p>' + language + description + '<br/><small>' + updated + '</small></p>';
+	html += '		<p>' + language + changeDescription(description) + '<br/><small>' + changeDate(updated) + '</small></p>';
 	html += '	</div>';
 	html += '</article>';
 	return html;
 }
 
-//all timestamps return in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
+
